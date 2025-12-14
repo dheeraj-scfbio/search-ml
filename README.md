@@ -2,6 +2,7 @@
 
 ![Version](https://img.shields.io/badge/version-1.3.1-blue.svg)
 ![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS-lightgrey.svg)
+![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Lab](https://img.shields.io/badge/SCFBio-IIT%20Delhi-orange.svg)
 
 **Search-ML** is a streamlined, serial execution pipeline designed to automate the virtual screening of protein-ligand complexes against high-value databases like **DrugBank** and **FDA** approved compounds.
@@ -25,12 +26,25 @@ Developed at the **Supercomputing Facility for Bioinformatics and Computational 
 Before running the pipeline, ensure you have the following installed on your Master Node or Workstation:
 
 1.  **Bash Shell** (Required for process substitution).
-2.  **AmberTools** (specifically `tleap`).
-3.  **Python 3.x** with the following dependencies:
-    * `numpy`
-    * `pandas`
-    * `scikit-learn` (or specific ML libraries used in your models)
-    * `rdkit` (if used for physicochemical properties)
+2.  **AmberTools** (specifically `tleap` must be in your PATH).
+3.  **Python 3.8+** with the following dependencies:
+    ```bash
+    pip install numpy pandas scikit-learn rdkit joblib
+    ```
+
+---
+
+## 📥 Model Download (Required)
+
+The Random Forest model (`final_rf_model.joblib`) is too large for GitHub (>100MB) and must be downloaded separately.
+
+1.  **[Click here to download the model](INSERT_YOUR_GOOGLE_DRIVE_LINK_HERE)**
+2.  **Setup:**
+    * Download the file.
+    * Move it into the `models/` directory inside this repository:
+        ```bash
+        mv ~/Downloads/final_rf_model.joblib ./models/
+        ```
 
 ---
 
@@ -52,12 +66,3 @@ export HOME="/path/to/your/search-ml"
 # - /datasets (containing 'drugbank' and 'fda' folders)
 # - /scripts
 # - /models
-```
-
-## 📥 Model Download
-The Random Forest model (`final_rf_model.joblib`) is too large for GitHub.
-[Click here to download the model](YOUR_GOOGLE_DRIVE_LINK_HERE)
-
-**Setup:**
-1. Download the file.
-2. Place it inside the `models/` directory.
