@@ -83,6 +83,7 @@ chmod +x install.sh
 Once the installer finishes, activate the environment to start using the tool:
 
 ```bash
+conda env config vars set SEARCH_ML="$(pwd)" --name search-ml
 conda activate search-ml
 ```
 
@@ -94,7 +95,7 @@ This script is designed for **serial execution** on a Master Node or Workstation
 
 ### Syntax
 ```bash
-./run_virtual_screening.sh <PDB_FILENAME> <LIGAND_CODE> <DATABASE>
+./master.sh <PDB_FILENAME> <LIGAND_CODE> <DATABASE>
 ```
 
 ### Argument Breakdown
@@ -110,7 +111,7 @@ This script is designed for **serial execution** on a Master Node or Workstation
 **Scenario A: Screening against DrugBank**
 Screening protein `4dfr.pdb` containing ligand `MTX`:
 ```bash
-bash run_virtual_screening.sh 4dfr MTX DB
+bash master.sh 4dfr MTX DB
 ```
 
 For detailed usage instructions, please read [USAGE.md](USAGE.md).
@@ -171,6 +172,7 @@ chmod +x install.sh
 Once the installation finishes:
 
 ```bash
+conda env config vars set SEARCH_ML="$(pwd)" --name search-ml
 conda activate search-ml
-./run_virtual_screening.sh 4dfr MTX DB
+./master.sh 4dfr MTX DB
 ```
