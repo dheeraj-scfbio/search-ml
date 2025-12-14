@@ -106,9 +106,9 @@ This script is designed for **serial execution** on a Master Node or Workstation
 | **$2** | `LIGAND_CODE` | The 3-letter residue name of the ligand inside the PDB. <br>*(e.g., `LIG`, `MOL`, `DRG`)* |
 | **$3** | `DATABASE` | The target database identifier. <br>**Options:** `DB` (DrugBank) or `FDA` (FDA Approved) |
 
-### Examples
+### Example
 
-**Scenario A: Screening against DrugBank**
+**Screening against DrugBank**
 Screening protein `9kte.pdb` containing ligand `9UM`:
 ```bash
 bash master.sh 9kte 9UM DB
