@@ -54,3 +54,10 @@ export HOME="/path/to/your/search-ml"
 # - /models
 ```
 
+## 📥 Model Download
+The Random Forest model (`final_rf_model.joblib`) is too large for GitHub.
+[Click here to download the model](YOUR_GOOGLE_DRIVE_LINK_HERE)
+
+**Setup:**
+1. Download the file.
+2. Place it inside the `models/` directory.
