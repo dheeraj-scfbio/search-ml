@@ -109,9 +109,9 @@ This script is designed for **serial execution** on a Master Node or Workstation
 ### Examples
 
 **Scenario A: Screening against DrugBank**
-Screening protein `4dfr.pdb` containing ligand `MTX`:
+Screening protein `9kte.pdb` containing ligand `9UM`:
 ```bash
-bash master.sh 4dfr MTX DB
+bash master.sh 9kte 9UM DB
 ```
 
 For detailed usage instructions, please read [USAGE.md](USAGE.md).
@@ -174,5 +174,5 @@ Once the installation finishes:
 ```bash
 conda env config vars set SEARCH_ML="$(pwd)" --name search-ml
 conda activate search-ml
-./master.sh 4dfr MTX DB
+./master.sh 9kte 9UM DB
 ```
