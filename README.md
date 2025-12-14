@@ -2,6 +2,7 @@
 
 ![Version](https://img.shields.io/badge/version-1.3.1-blue.svg)
 ![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS-lightgrey.svg)
+![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Lab](https://img.shields.io/badge/SCFBio-IIT%20Delhi-orange.svg)
 
 **Search-ML** is a streamlined, serial execution pipeline designed to automate the virtual screening of protein-ligand complexes against high-value databases like **DrugBank** and **FDA** approved compounds.
@@ -13,24 +14,21 @@ Developed at the **Supercomputing Facility for Bioinformatics and Computational 
 ## 🚀 Key Features
 
 * **Automated Pre-processing:** Extracts protein and ligand coordinates and cleans PDB files automatically.
-* **AmberTools Integration:** Seamlessly runs `tleap` for system parameterization.
-* **Smart Feature Extraction:** Calculates physicochemical properties, pocket volume, and SASA using custom Python modules.
+* **AmberTools Integration:** Seamlessly runs `tleap` for system parameterization and topology generation.
+* **Smart Feature Extraction:** Calculates physicochemical properties, pocket volume, and Solvent Accessible Surface Area (SASA) using RDKit and custom modules.
 * **Targeted Screening:** Optimized for **DrugBank** and **FDA** databases.
-* **Error Handling:** Robust logging (`job.log`) and error trapping to ensure data integrity.
+* **Robust Error Handling:** Includes detailed logging (`job.log`) and automated environment configuration.
 
 ---
 
 ## 🛠️ Prerequisites
 
-Before running the pipeline, ensure you have the following installed on your Master Node or Workstation:
+Before installing, ensure you have the following:
 
-1.  **Bash Shell** (Required for process substitution).
-2.  **AmberTools** (specifically `tleap`).
-3.  **Python 3.x** with the following dependencies:
-    * `numpy`
-    * `pandas`
-    * `scikit-learn` (or specific ML libraries used in your models)
-    * `rdkit` (if used for physicochemical properties)
+1.  **Operating System:** Linux, macOS, or Windows (via WSL2).
+2.  **Conda Manager:** **Miniconda** or **Anaconda** must be installed.
+    * *If you don't have it, download it here: [Miniconda Documentation](https://docs.anaconda.com/miniconda/)*
+3.  **Git:** To clone the repository.
 
 ---
 
@@ -51,21 +49,128 @@ Because this script relies on specific dataset locations, you **must** configure
 # - /models
 ```
 
-## 🪟 Windows Support
+---
 
-This tool runs natively on Linux and macOS. For Windows users, we support execution via **WSL2 (Windows Subsystem for Linux)**.
+## 📥 Installation Guide
 
-**Step 1: Install WSL**
-1. Open PowerShell as Administrator.
-2. Run the command: `wsl --install`
-3. Restart your computer.
-4. Open the newly installed "Ubuntu" app from your Start Menu.
+We provide an automated installer (`install.sh`) that sets up the Conda environment and configures necessary paths for you.
 
-**Step 2: Install in WSL**
-Now that you are inside the Ubuntu terminal, the steps are identical to Linux:
+### Step 1: Clone the Repository
+Open your terminal and run:
+```bash
+git clone [https://github.com/dheeraj-scfbio/search-ml.git](https://github.com/dheeraj-scfbio/search-ml.git)
+cd search-ml
+```
 
-1. **Install Git:** `sudo apt-get update && sudo apt-get install git`
-2. **Clone the Repo:** `git clone https://github.com/dheeraj-scfbio/search-ml.git`
-3. **Run Installer:** `bash install.sh`
-4. **Download Model:** (Follow the "Model Download" instructions above)
-5. **Run Tool:** `bash master.sh ...`
+### Step 2: Download the Model (Crucial)
+The pre-trained Random Forest model (~800MB) is too large for GitHub and is hosted externally.
+
+1.  **[Click here to download the model](INSERT_YOUR_GOOGLE_DRIVE_LINK_HERE)**
+2.  Move the downloaded file (`final_rf_model.joblib`) into the `models/` folder:
+    ```bash
+    mv ~/Downloads/final_rf_model.joblib ./models/
+    ```
+
+### Step 3: Run the Automated Installer
+This script will detect your Conda installation, create the `search-ml` environment, install all dependencies (AmberTools, RDKit, etc.), and configure the project path.
+
+```bash
+chmod +x install.sh
+./install.sh
+```
+
+### Step 4: Activate the Environment
+Once the installer finishes, activate the environment to start using the tool:
+
+```bash
+conda activate search-ml
+```
+
+---
+
+## 📖 Usage Guide
+
+This script is designed for **serial execution** on a Master Node or Workstation.
+
+### Syntax
+```bash
+./run_virtual_screening.sh <PDB_FILENAME> <LIGAND_CODE> <DATABASE>
+```
+
+### Argument Breakdown
+
+| Position | Argument | Description |
+| :--- | :--- | :--- |
+| **$1** | `PDB_FILENAME` | The name of your PDB file **without the extension**. <br>*(e.g., Use `1abc` for `1abc.pdb`)* |
+| **$2** | `LIGAND_CODE` | The 3-letter residue name of the ligand inside the PDB. <br>*(e.g., `LIG`, `MOL`, `DRG`)* |
+| **$3** | `DATABASE` | The target database identifier. <br>**Options:** `DB` (DrugBank) or `FDA` (FDA Approved) |
+
+### Examples
+
+**Scenario A: Screening against DrugBank**
+Screening protein `4dfr.pdb` containing ligand `MTX`:
+```bash
+bash run_virtual_screening.sh 4dfr MTX DB
+```
+
+For detailed usage instructions, please read [USAGE.md](USAGE.md).
+
+---
+
+## 🪟 Windows Installation Guide (WSL2)
+
+Since this tool relies on **AmberTools** (Unix-based software), it **cannot** run directly in the Windows Command Prompt or PowerShell.
+
+Instead, you must run it inside **WSL2 (Windows Subsystem for Linux)**. This allows you to run a full Ubuntu environment seamlessly inside Windows.
+
+### Step 1: Install WSL2
+1.  Open **PowerShell** as Administrator (Right-click Start Menu -> Terminal (Admin) / PowerShell (Admin)).
+2.  Run the following command:
+    ```powershell
+    wsl --install
+    ```
+3.  **Restart your computer** when prompted.
+4.  After restarting, open the **"Ubuntu"** app from your Start Menu.
+5.  Follow the on-screen prompts to create a Username and Password for your Linux system.
+
+### Step 2: Set Up Prerequisites
+Inside your new Ubuntu terminal, run the following commands to update the system and install Git:
+
+```bash
+sudo apt-get update
+sudo apt-get install git -y
+```
+
+### Step 3: Clone the Repository
+Now you can download the Search-ML code:
+
+```bash
+git clone [https://github.com/dheeraj-scfbio/search-ml.git](https://github.com/dheeraj-scfbio/search-ml.git)
+cd search-ml
+```
+
+### Step 4: Download the Model
+*Note: You cannot drag-and-drop files easily into the command line, so we will move it from your Windows Downloads folder.*
+
+1.  **[Click here to download the model](INSERT_YOUR_GOOGLE_DRIVE_LINK_HERE)** to your Windows **Downloads** folder.
+2.  In the Ubuntu terminal, move the file from Windows to the project folder:
+    ```bash
+    # Replace 'YourWindowsUsername' with your actual Windows user name
+    mv /mnt/c/Users/YourWindowsUsername/Downloads/final_rf_model.joblib ./models/
+    ```
+
+### Step 5: Run the Installer
+Now run the automated setup script. This works exactly the same as on Linux.
+
+```bash
+chmod +x install.sh
+./install.sh
+```
+
+### Step 6: Activate and Run
+Once the installation finishes:
+
+```bash
+conda activate search-ml
+./run_virtual_screening.sh 4dfr MTX DB
+```
