@@ -65,7 +65,7 @@ cd search-ml
 ### Step 2: Download the Model (Crucial)
 The pre-trained Random Forest model (~800MB) is too large for GitHub and is hosted externally.
 
-1.  **[Click here to download the model](https://scfbio.iitd.ac.in/search-ml/models/final_rf_model.joblib)**
+1.  **[Click here to download the model](https://scfbio.iitd.ac.in/search-ml/Download.php)**
 2.  Move the downloaded file (`final_rf_model.joblib`) into the `models/` folder:
     ```bash
     mv ~/Downloads/final_rf_model.joblib ./models/
@@ -146,14 +146,14 @@ sudo apt-get install git -y
 Now you can download the Search-ML code:
 
 ```bash
-git clone [https://github.com/dheeraj-scfbio/search-ml.git](https://github.com/dheeraj-scfbio/search-ml.git)
+git clone "https://github.com/dheeraj-scfbio/search-ml.git"
 cd search-ml
 ```
 
 ### Step 4: Download the Model
 *Note: You cannot drag-and-drop files easily into the command line, so we will move it from your Windows Downloads folder.*
 
-1.  **[Click here to download the model](INSERT_YOUR_GOOGLE_DRIVE_LINK_HERE)** to your Windows **Downloads** folder.
+1.  **[Click here to download the model](https://scfbio.iitd.ac.in/search-ml/Download.php)** to your Windows **Downloads** folder.
 2.  In the Ubuntu terminal, move the file from Windows to the project folder:
     ```bash
     # Replace 'YourWindowsUsername' with your actual Windows user name
