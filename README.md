@@ -1,8 +1,8 @@
 # 🧬 Search-ML: Automated Virtual Screening Pipeline
 
 ![Version](https://img.shields.io/badge/version-1.3.1-blue.svg)
-![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS-lightgrey.svg)
-![License](https://img.shields.io/badge/license-MIT-green.svg)
+![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20Windows-lightgrey.svg)
+![License](https://img.shields.io/badge/license-AFL-green.svg)
 ![Lab](https://img.shields.io/badge/SCFBio-IIT%20Delhi-orange.svg)
 
 **Search-ML** is a streamlined, serial execution pipeline designed to automate the virtual screening of protein-ligand complexes against high-value databases like **DrugBank** and **FDA** approved compounds.
