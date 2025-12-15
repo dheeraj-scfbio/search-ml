@@ -65,7 +65,7 @@ cd search-ml
 ### Step 2: Download the Model (Crucial)
 The pre-trained Random Forest model (~800MB) is too large for GitHub and is hosted externally.
 
-1.  **[Click here to download the model](INSERT_YOUR_GOOGLE_DRIVE_LINK_HERE)**
+1.  **[Click here to download the model]((https://scfbio.iitd.ac.in/search-ml/models/final_rf_model.joblib))**
 2.  Move the downloaded file (`final_rf_model.joblib`) into the `models/` folder:
     ```bash
     mv ~/Downloads/final_rf_model.joblib ./models/
