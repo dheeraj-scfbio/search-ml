@@ -20,7 +20,7 @@
 #      $3 : Database Identifier ("DB" for DrugBank, "FDA" for FDA)
 #
 #   Example: 
-#      ./master.sh 1abc LIG DB
+#      ./master.sh 1abc.pdb LIG DB
 #
 # Copyright (c) 2025 Supercomputing Facility for Bioinformatics and Computational Biology (SCFBio), IIT Delhi.
 # All rights reserved.
@@ -31,7 +31,7 @@ date
 
 JOB_DIR=`pwd`
 JOBID=`date +%s`
-PDB_FILE=$1".pdb"
+PDB_FILE=$1
 LIGAND_CODE=$2
 DB=$3
 
@@ -41,6 +41,18 @@ DB=$3
 
 # Exit immediately if a command fails.
 set -e
+
+if [ -z "$SEARCH_ML_HOME" ]; then
+    echo "Error: SEARCH_ML_HOME is not defined."
+    echo "Please set the SEARCH-ML home path by executing the below commands:"
+    echo "   conda env config vars set SEARCH_ML_HOME="$(pwd)" --name $ENV_NAME"
+    echo "   conda deactivate $ENV_NAME"
+    echo "   conda activate $ENV_NAME"
+    echo ""
+    exit 1
+else
+    echo "SEARCH_ML_HOME is set to: $SEARCH_ML_HOME"
+fi
 
 # Create the job directory
 mkdir $JOBID
@@ -73,15 +85,13 @@ echo "Job Directory: $JOB_DIR/$JOBID"
 # SECTION 2: SCIENTIFIC LOGIC AND DATABASE SELECTION
 # ==============================================================================
 
-export HOME="/Users/dheeraj/DHEERAJ/search-ml"
-
-if [ -d "$HOME" ]; then
-    export data_path="$HOME/datasets"
-    export scripts_path="$HOME/scripts"
-    export models="$HOME/models"
-    export parameters="$HOME/parameters"
+if [ -d "$SEARCH_ML_HOME" ]; then
+    export data_path="$SEARCH_ML_HOME/datasets"
+    export scripts_path="$SEARCH_ML_HOME/scripts"
+    export models="$SEARCH_ML_HOME/models"
+    export parameters="$SEARCH_ML_HOME/parameters"
 else
-    echo "Error: HOME directory not found at $HOME."
+    echo "Error: SEARCH-ML directory not found at $SEARCH_ML_HOME."
     exit 1
 fi
 
