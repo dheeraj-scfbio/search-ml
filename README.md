@@ -58,7 +58,7 @@ We provide an automated installer (`install.sh`) that sets up the Conda environm
 ### Step 1: Clone the Repository
 Open your terminal and run:
 ```bash
-git clone [https://github.com/dheeraj-scfbio/search-ml.git](https://github.com/dheeraj-scfbio/search-ml.git)
+git clone https://github.com/dheeraj-scfbio/search-ml.git
 cd search-ml
 ```
 
