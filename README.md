@@ -32,25 +32,6 @@ Before installing, ensure you have the following:
 
 ---
 
-## ⚙️ Configuration (Important)
-
-Because this script relies on specific dataset locations, you **must** configure the paths before the first run.
-
-1.  Open `master.sh` in your text editor.
-2.  Navigate to **Section 2 (Lines 75-79)**.
-3.  Update the `export HOME` variable to point to your local installation directory:
-
-```bash
-# Inside master.sh
-
-# Ensure these subdirectories exist inside that path:
-# - /datasets (containing 'drugbank' and 'fda' folders)
-# - /scripts
-# - /models
-```
-
----
-
 ## 📥 Installation Guide
 
 We provide an automated installer (`install.sh`) that sets up the Conda environment and configures necessary paths for you.
