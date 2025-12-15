@@ -1,8 +1,8 @@
 # 🧬 Search-ML: Automated Virtual Screening Pipeline
 
 ![Version](https://img.shields.io/badge/version-1.3.1-blue.svg)
-![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20Windows-lightgrey.svg)
-![License](https://img.shields.io/badge/license-AFL-green.svg)
+![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS-lightgrey.svg)
+![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Lab](https://img.shields.io/badge/SCFBio-IIT%20Delhi-orange.svg)
 
 **Search-ML** is a streamlined, serial execution pipeline designed to automate the virtual screening of protein-ligand complexes against high-value databases like **DrugBank** and **FDA** approved compounds.
@@ -65,7 +65,7 @@ cd search-ml
 ### Step 2: Download the Model (Crucial)
 The pre-trained Random Forest model (~800MB) is too large for GitHub and is hosted externally.
 
-1.  **[Click here to download the model]((https://scfbio.iitd.ac.in/search-ml/models/final_rf_model.joblib))**
+1.  **[Click here to download the model](https://scfbio.iitd.ac.in/search-ml/models/final_rf_model.joblib)**
 2.  Move the downloaded file (`final_rf_model.joblib`) into the `models/` folder:
     ```bash
     mv ~/Downloads/final_rf_model.joblib ./models/
