@@ -19,13 +19,13 @@ This script is optimized for the **Master Node** or interactive workstations and
 **Do NOT use `sh` to run this script.**
 This script uses Bash-specific features (process substitution). Always use `bash` or execute directly.
 
-* ✅ **Correct:** `bash run_virtual_screening.sh ...`
-* ✅ **Correct:** `./run_virtual_screening.sh ...`
-* ❌ **Incorrect:** `sh run_virtual_screening.sh ...` (Will cause `syntax error near unexpected token >`)
+* ✅ **Correct:** `bash master.sh ...`
+* ✅ **Correct:** `./master.sh ...`
+* ❌ **Incorrect:** `sh master.sh ...` (Will cause `syntax error near unexpected token >`)
 
 ### Command Structure
 ```bash
-./run_virtual_screening.sh <PDB_FILENAME> <LIGAND_CODE> <DATABASE>
+./master.sh <PDB_FILENAME> <LIGAND_CODE> <DATABASE>
 ```
 ## Step-by-Step Examples
 
@@ -38,7 +38,7 @@ This section provides concrete scenarios to help you understand how to run the s
     Ensure `4dfr.pdb` is in your current directory.
 2.  **Run the command:**
     ```bash
-    bash run_virtual_screening.sh 4dfr MTX DB
+    bash master.sh 4dfr MTX DB
     ```
 3.  **Verify:**
     The script will create a directory (e.g., `1734177600`). Inside, check `results.txt` for the affinity scores.
@@ -50,7 +50,7 @@ This section provides concrete scenarios to help you understand how to run the s
     Ensure `target_prot.pdb` is in your current directory.
 2.  **Run the command:**
     ```bash
-    ./run_virtual_screening.sh target_prot LIG FDA
+    ./master.sh target_prot LIG FDA
     ```
     *(Note: We use `target_prot` without the `.pdb` extension)*
 3.  **Verify:**
@@ -61,7 +61,7 @@ This section provides concrete scenarios to help you understand how to run the s
 
 1.  **Run the command:**
     ```bash
-    bash run_virtual_screening.sh my_experiment_v2 DRG DB
+    bash master.sh my_experiment_v2 DRG DB
     ```
 
 ## Output Explanation
@@ -115,7 +115,7 @@ This is what happens under the hood when you execute the script:
 
 ### Error: `HOME directory not found`
 * **Cause:** The hardcoded path in the script does not match your machine's file structure.
-* **Fix:** Open `run_virtual_screening.sh` and edit the `export HOME="..."` line to point to your `search-ml` folder.
+* **Fix:** Open `master.sh` and edit the `export HOME="..."` line to point to your `search-ml` folder.
 
 ## Copyright & Contact
 
