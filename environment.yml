@@ -120,4 +120,3 @@ dependencies:
       - tqdm==4.67.1
       - tzdata==2025.3
       - xgboost==3.0.4
-prefix: /opt/miniconda3/envs/search-ml
