@@ -114,8 +114,12 @@ This is what happens under the hood when you execute the script:
 * **Fix:** Check your PDB file format. Ensure it uses standard PDB naming conventions for residues.
 
 ### Error: `HOME directory not found`
-* **Cause:** The hardcoded path in the script does not match your machine's file structure.
-* **Fix:** Open `master.sh` and edit the `export HOME="..."` line to point to your `search-ml` folder.
+* **Cause:** The path in the script does not match your machine's file structure.
+* **Fix:** Execute the following commands on the terminal:
+* ```bash
+  conda env config vars set SEARCH_ML="$(pwd)" --name search-ml
+  conda activate search-ml
+  ```
 
 ## Copyright & Contact
 
