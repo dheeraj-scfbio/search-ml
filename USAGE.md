@@ -113,7 +113,7 @@ This is what happens under the hood when you execute the script:
 * **Cause:** The input PDB has fewer than 25 residues, or the script failed to detect standard amino acids (ALA, ARG, etc.).
 * **Fix:** Check your PDB file format. Ensure it uses standard PDB naming conventions for residues.
 
-### Error: `HOME directory not found`
+### Error: `SEARCH_ML_HOME directory not found`
 * **Cause:** The path in the script does not match your machine's file structure.
 * **Fix:** Execute the following commands on the terminal:
 * ```bash
