@@ -38,10 +38,10 @@ This section provides concrete scenarios to help you understand how to run the s
     Ensure `4dfr.pdb` is in your current directory.
 2.  **Run the command:**
     ```bash
-    bash master.sh 4dfr MTX DB
+    bash master.sh 4dfr.pdb MTX DB
     ```
 3.  **Verify:**
-    The script will create a directory (e.g., `1734177600`). Inside, check `results.txt` for the affinity scores.
+    The script will create a directory (e.g., `1734177600`). Inside, check `results.csv` for the affinity scores.
 
 ### Scenario B: Screening against FDA Approved Drugs (FDA)
 **Goal:** You have a target protein file named `target_prot.pdb` with a co-crystallized ligand named `LIG`. You want to find FDA-approved drugs that might bind to this pocket.
@@ -50,9 +50,9 @@ This section provides concrete scenarios to help you understand how to run the s
     Ensure `target_prot.pdb` is in your current directory.
 2.  **Run the command:**
     ```bash
-    ./master.sh target_prot LIG FDA
+    ./master.sh target_prot.pdb LIG FDA
     ```
-    *(Note: We use `target_prot` without the `.pdb` extension)*
+    *(Note: We use `target_prot` with the `.pdb` extension)*
 3.  **Verify:**
     Check the `job.log` inside the new folder to ensure `tleap` and feature calculation finished without errors.
 
@@ -61,7 +61,7 @@ This section provides concrete scenarios to help you understand how to run the s
 
 1.  **Run the command:**
     ```bash
-    bash master.sh my_experiment_v2 DRG DB
+    bash master.sh my_experiment_v2.pdb DRG DB
     ```
 
 ## Output Explanation
@@ -74,7 +74,7 @@ Inside the job directory, you will find the following files:
 
 | File | Description |
 | :--- | :--- |
-| **`results.txt`** | **The Main Output.** Contains the predicted binding affinity scores for your target against the selected database. |
+| **`results.csv`** | **The Main Output.** Contains the predicted binding affinity scores for your target against the selected database. |
 | **`job.log`** | **Execution Log.** Captures all standard output (STDOUT) and errors (STDERR). Check this first if a job fails. |
 | **`args.txt`** | **Input Record.** Logs the exact arguments (`PDB`, `LIG`, `DB`) used for this run. |
 | **`PROT.pdb`** | **Cleaned Protein.** The protein structure extracted from your input file, stripped of the ligand and waters. |
@@ -101,7 +101,7 @@ This is what happens under the hood when you execute the script:
 5.  **Merging:**
     * Combines protein features and ligand features into a unified dataset.
 6.  **Prediction:**
-    * Runs the pre-trained Machine Learning models (`virtual_screening4.py`) to generate affinity scores.
+    * Runs the pre-trained Machine Learning models (`screening.py`) to generate affinity scores.
   
 ## Troubleshooting
 
