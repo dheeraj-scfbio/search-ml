@@ -4,36 +4,46 @@
 # Script Name: master.sh (MASTER NODE / SERIAL VERSION)
 # Author: Dheeraj Kumar Chaurasia, SCFBio, IIT Delhi
 # Email: dheeraj@scfbio-iitd.res.in
-# Date: December 14, 2025
-# Version: 1.3.0 (Strictly for DRUGBANK/FDA on Master Node)
+# Date: December 26, 2025
+# Version: 1.6.0 (Supports DRUGBANK/FDA/SINGLE/CUSTOM with Mol Processing)
 #
 # Description:
-#   This script performs virtual screening on a provided PDB file against 
-#   specific small molecule databases (DrugBank or FDA).
+#   This script performs virtual screening on a provided PDB file. It supports
+#   screening against standard databases (DrugBank, FDA) or user-provided 
+#   molecule files (Single or Custom library).
 #   
 #   USAGE GUIDELINES:
-#   1. This script is designed for SERIAL execution (no parallel background jobs).
+#   1. This script is designed for SERIAL execution.
 #   2. Run this directly on the master node or an interactive session.
 #   3. Arguments:
 #      $1 : PDB Filename (without extension)
 #      $2 : Ligand Code (e.g., LIG)
-#      $3 : Database Identifier ("DB" for DrugBank, "FDA" for FDA)
+#      $3 : Screening Mode ("DB", "FDA", "BIMP", "SINGLE", "CUSTOM")
+#
+#   File Requirements for Custom Modes:
+#      - SINGLE: Requires 'single_molecule.{sdf|pdb|mol|smi}' in the directory.
+#      - CUSTOM: Requires 'custom_molecules.sdf' in the directory.
 #
 #   Example: 
+<<<<<<< Updated upstream
 #      ./master.sh 1abc.pdb LIG DB
+=======
+#      ./master.sh 1abc.pdb LIG DB        (Standard Screening)
+#      ./master.sh 1abc.pdb LIG SINGLE    (Single Molecule Screening)
+>>>>>>> Stashed changes
 #
 # Copyright (c) 2025 Supercomputing Facility for Bioinformatics and Computational Biology (SCFBio), IIT Delhi.
 # All rights reserved.
 # ==============================================================================
 
 date
-# --- Assign variables ---
 
+# --- Assign variables ---
 JOB_DIR=`pwd`
 JOBID=`date +%s`
 PDB_FILE=$1
 LIGAND_CODE=$2
-DB=$3
+MODE_ARG=$3      # Renamed for clarity (can be DB, FDA, SINGLE, CUSTOM)
 
 # ==============================================================================
 # SECTION 1: JOB SETUP AND STATUS REPORTING
@@ -45,9 +55,15 @@ set -e
 if [ -z "$SEARCH_ML_HOME" ]; then
     echo "Error: SEARCH_ML_HOME is not defined."
     echo "Please set the SEARCH-ML home path by executing the below commands:"
+<<<<<<< Updated upstream
     echo "   conda env config vars set SEARCH_ML_HOME="$(pwd)" --name $ENV_NAME"
     echo "   conda deactivate $ENV_NAME"
     echo "   conda activate $ENV_NAME"
+=======
+    echo "   conda env config vars set SEARCH_ML_HOME="$(pwd)" --name \$ENV_NAME"
+    echo "   conda deactivate \$ENV_NAME"
+    echo "   conda activate \$ENV_NAME"
+>>>>>>> Stashed changes
     echo ""
     exit 1
 else
@@ -82,7 +98,7 @@ echo "Job started at $(date)"
 echo "Job Directory: $JOB_DIR/$JOBID"
 
 # ==============================================================================
-# SECTION 2: SCIENTIFIC LOGIC AND DATABASE SELECTION
+# SECTION 2: SCIENTIFIC LOGIC AND INPUT VALIDATION
 # ==============================================================================
 
 if [ -d "$SEARCH_ML_HOME" ]; then
@@ -98,11 +114,13 @@ fi
 # --- 1. Check PDB file existence ---
 echo "Checking PDB file existence: $PDB_FILE"
 if [ ! -f "../$PDB_FILE" ]; then
-    echo "Error: PDB file '$PDB_FILE' not found."
+    echo "Error: PDB file '$PDB_FILE' not found in parent directory."
     exit 2
 else
     echo "PDB file '$PDB_FILE' found."
     cp "../$PDB_FILE" ./
+    
+    # Protein Validation Logic
     aa_count=$(grep '^ATOM' "$PDB_FILE" | grep -E "ALA|ARG|ASH|ASN|ASP|CYM|CYS|CYX|GLH|GLN|GLU|GLH|GLY|HIS|HID|HIE|HIP|ILE|LEU|LYN|LYS|MET|PHE|PRO|SER|THR|TRP|TYR|VAL" | grep ' CA ' | cut -c 18-26 | sort -u | wc -l)
     if [ "$aa_count" -gt 24 ]; then
         echo "Protein length ($aa_count) is OK."
@@ -112,41 +130,94 @@ else
     fi
 fi
 
-# --- 2. Validate and select database ---
-echo "Validating database selection: $DB"
-database="" # Initialize the variable
+# --- 2. Validate Mode and Database Selection ---
+echo "Validating screening mode: $MODE_ARG"
 
-case "$DB" in
+SCREENING_TYPE=""    # Internal flag: "DATABASE" or "USER_FILE"
+DATABASE_NAME=""     # Used if SCREENING_TYPE is DATABASE
+INPUT_MOL_FILE=""    # Used if SCREENING_TYPE is USER_FILE
+
+case "$MODE_ARG" in
   "DB") 
-    database="drugbank" 
+    SCREENING_TYPE="DATABASE"
+    DATABASE_NAME="drugbank"
+    echo "Mode Selected: Standard DrugBank Screening"
     ;;
   "FDA") 
-    database="fda" 
+    SCREENING_TYPE="DATABASE"
+    DATABASE_NAME="fda"
+    echo "Mode Selected: FDA Approved Drugs Screening"
+    ;;
+  "BIMP") 
+    SCREENING_TYPE="DATABASE"
+    DATABASE_NAME="bimp"
+    echo "Mode Selected: BIMP Drugs Screening"
+    ;;
+  "SINGLE")
+    SCREENING_TYPE="USER_FILE"
+    echo "Mode Selected: Single Molecule Screening"
+    
+    # Autodetect format logic
+    FOUND=0
+    for ext in sdf pdb smi; do
+        if [ -f "../single_molecule.$ext" ]; then
+            echo "Found input file: single_molecule.$ext"
+            cp "../single_molecule.$ext" ./
+            INPUT_MOL_FILE="single_molecule.$ext"
+            FOUND=1
+            break
+        fi
+    done
+    
+    if [ $FOUND -eq 0 ]; then
+        echo "Error: 'SINGLE' mode selected, but no valid file found."
+        echo "Please ensure one of the following exists in the directory:"
+        echo "  - single_molecule.sdf"
+        echo "  - single_molecule.pdb"
+        echo "  - single_molecule.smi"
+        exit 4
+    fi
+    ;;
+  "CUSTOM")
+    SCREENING_TYPE="USER_FILE"
+    echo "Mode Selected: Custom Library Screening"
+    
+    # Custom mode strict check
+    if [ -f "../custom_molecules.sdf" ]; then
+        echo "Found input file: custom_molecules.sdf"
+        cp "../custom_molecules.sdf" ./
+        INPUT_MOL_FILE="custom_molecules.sdf"
+    else
+        echo "Error: 'CUSTOM' mode selected, but 'custom_molecules.sdf' not found."
+        echo "Custom mode currently only supports .sdf format."
+        exit 5
+    fi
     ;;
   *)
-    echo "Error: Invalid database selection. Argument 3 must be 'DB' or 'FDA'."
+    echo "Error: Invalid argument '$MODE_ARG'."
+    echo "Allowed options: DB, FDA, BIMP, SINGLE, CUSTOM"
     exit 6
     ;;
 esac
 
-echo "Selection '$DB' is valid. Selected Database path: $database"
-
 # --- Define the core scientific workflow as a function ---
 run_screening_logic() {
-    # This function expects to be run inside a directory that has the data linked.
     echo "Preparing PDB and ligand files..."
     grep '^ATOM' "$PDB_FILE" | grep -E "ALA|ARG|ASH|ASN|ASP|CYM|CYS|CYX|GLH|GLN|GLU|GLH|GLY|HIS|HID|HIE|HIP|ILE|LEU|LYN|LYS|MET|PHE|PRO|SER|THR|TRP|TYR|VAL" > PROT.pdb
     grep -E "^ATOM|^HETATM" "$PDB_FILE" | grep "$LIGAND_CODE" >> PROT.pdb
+    
+    # Extract Ligand Residue Name
     LIG=$(echo "$LIGAND_CODE" | awk '{print $1}')
     echo "$LIG" >> lig
 
     echo "Loading Intel module and running tleap..."
-    #module load intel/2018.3.222
+    # module load intel/2018.3.222
     tleap -f leap.cmd
-    #module purge
+    # module purge
     echo "tleap finished."
 
-    echo "Running Python scripts for feature calculation..."
+    # --- PROTEIN FEATURE CALCULATIONS ---
+    echo "Running Python scripts for protein feature calculation..."
     python protein_features.py PROT_LIG.pdb "$LIG"
     python pocket_features.py PROT_LIG.pdb "$LIG"
     echo "Feature calculation finished."
@@ -155,23 +226,47 @@ run_screening_logic() {
     python merge_protein_features.py
     echo "Merging finished."
 
+    # --- LIGAND/CUSTOM PROCESSING LOGIC ---
+    # This block executes ONLY for SINGLE or CUSTOM modes
+    if [ "$MODE_ARG" == "SINGLE" ]; then
+        echo "Processing Single Molecule..."
+        echo "Converting $INPUT_MOL_FILE to Ligand.sdf..."
+        # Converts input (e.g., single_molecule.pdb) to Ligand.sdf
+        python convert_mol.py "$INPUT_MOL_FILE" Ligand
+        
+        echo "Calculating features for Ligand.sdf..."
+        python calculate_ligand_features.py -i Ligand.sdf -o dataset.csv
+
+    elif [ "$MODE_ARG" == "CUSTOM" ]; then
+        echo "Processing Custom Library..."
+        echo "Calculating features for custom_molecules.sdf..."
+        # Directly calculates features on the custom sdf file
+        python calculate_ligand_features.py -i custom_molecules.sdf -o dataset.csv
+    fi
+
+    # --- FINAL SCREENING ---
     echo "Starting final virtual screening..."
+    # The screening.py script uses the generated dataset.csv or linked DB files
     python screening.py > results.txt
     echo "Virtual screening finished."
 }
 
 # --- 3. Execute workflow (Serial Mode) ---
-echo "Linking files for serial execution..."
+echo "Linking environment files..."
 
-# Link database files
-ln -s "$data_path/$database"/* ./
-
-# Link models and scripts
+# Link models and scripts (Always required)
 ln -s "$models"/* ./
 ln -s "$scripts_path"/* ./
 
-# Link the parameter file from the parent directory
-ln -s "$parameters"/* .
+# Database & Parameters Linking Logic
+if [ "$SCREENING_TYPE" == "DATABASE" ]; then
+    echo "Database Mode: Linking database files and parameters."
+    ln -s "$data_path/$DATABASE_NAME"/* ./
+    ln -s "$parameters"/* ./
+else
+    echo "User File Mode: Skipping database and parameter linking."
+    echo "Input molecule file: $INPUT_MOL_FILE"
+fi
 
 # Execute logic
 run_screening_logic

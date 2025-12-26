@@ -34,6 +34,37 @@ Before installing, ensure you have the following:
 
 ## 📥 Installation Guide
 
+<<<<<<< Updated upstream
+We provide an automated installer (`install.sh`) that sets up the Conda environment and configures necessary paths for you.
+=======
+Because this script relies on specific dataset locations, you **must** configure the paths before the first run.
+
+1.  Open `master.sh` in your text editor.
+2.  Navigate to **Section 2 (Lines 75-79)**.
+3.  Update the `export HOME` variable to point to your local installation directory:
+>>>>>>> Stashed changes
+
+### Step 1: Clone the Repository
+Open your terminal and run:
+```bash
+<<<<<<< Updated upstream
+git clone https://github.com/dheeraj-scfbio/search-ml.git
+cd search-ml
+```
+
+=======
+# Inside master.sh
+
+# Ensure these subdirectories exist inside that path:
+# - /datasets (containing 'drugbank' and 'fda' folders)
+# - /scripts
+# - /models
+```
+
+---
+
+## 📥 Installation Guide
+
 We provide an automated installer (`install.sh`) that sets up the Conda environment and configures necessary paths for you.
 
 ### Step 1: Clone the Repository
@@ -43,6 +74,7 @@ git clone https://github.com/dheeraj-scfbio/search-ml.git
 cd search-ml
 ```
 
+>>>>>>> Stashed changes
 ### Step 2: Download the Model (Crucial)
 The pre-trained Random Forest model (~800MB) is too large for GitHub and is hosted externally.
 
@@ -76,7 +108,11 @@ This script is designed for **serial execution** on a Master Node or Workstation
 
 ### Syntax
 ```bash
+<<<<<<< Updated upstream
 ./master.sh <PDB_FILENAME> <LIGAND_CODE> <DATABASE>
+=======
+./master.sh <PDB_FILENAME> <LIGAND_CODE> <MODE>
+>>>>>>> Stashed changes
 ```
 
 ### Argument Breakdown
@@ -85,14 +121,22 @@ This script is designed for **serial execution** on a Master Node or Workstation
 | :--- | :--- | :--- |
 | **$1** | `PDB_FILENAME` | The name of your PDB file **with the extension**. <br>*(e.g., Use `1abc.pdb`)* |
 | **$2** | `LIGAND_CODE` | The 3-letter residue name of the ligand inside the PDB. <br>*(e.g., `LIG`, `MOL`, `DRG`)* |
+<<<<<<< Updated upstream
 | **$3** | `DATABASE` | The target database identifier. <br>**Options:** `DB` (DrugBank) or `FDA` (FDA Approved) |
+=======
+| **$3** | `MODE` | The screening mode. <br>**Options:** DB, FDA, SINGLE, CUSTOM |
+>>>>>>> Stashed changes
 
 ### Example
 
 **Screening against DrugBank**
 Screening protein `9kte.pdb` containing ligand `9UM`:
 ```bash
+<<<<<<< Updated upstream
 bash master.sh 9kte.pdb 9UM DB
+=======
+bash master.sh 9kte 9UM DB
+>>>>>>> Stashed changes
 ```
 
 For detailed usage instructions, please read [USAGE.md](USAGE.md).
@@ -155,5 +199,9 @@ Once the installation finishes:
 ```bash
 conda env config vars set SEARCH_ML="$(pwd)" --name search-ml
 conda activate search-ml
+<<<<<<< Updated upstream
 ./master.sh 9kte.pdb 9UM DB
+=======
+./master.sh 9kte 9UM DB
+>>>>>>> Stashed changes
 ```
