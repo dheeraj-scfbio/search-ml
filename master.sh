@@ -25,12 +25,9 @@
 #      - CUSTOM: Requires 'custom_molecules.sdf' in the directory.
 #
 #   Example: 
-<<<<<<< Updated upstream
 #      ./master.sh 1abc.pdb LIG DB
-=======
 #      ./master.sh 1abc.pdb LIG DB        (Standard Screening)
 #      ./master.sh 1abc.pdb LIG SINGLE    (Single Molecule Screening)
->>>>>>> Stashed changes
 #
 # Copyright (c) 2025 Supercomputing Facility for Bioinformatics and Computational Biology (SCFBio), IIT Delhi.
 # All rights reserved.
@@ -55,15 +52,12 @@ set -e
 if [ -z "$SEARCH_ML_HOME" ]; then
     echo "Error: SEARCH_ML_HOME is not defined."
     echo "Please set the SEARCH-ML home path by executing the below commands:"
-<<<<<<< Updated upstream
     echo "   conda env config vars set SEARCH_ML_HOME="$(pwd)" --name $ENV_NAME"
     echo "   conda deactivate $ENV_NAME"
     echo "   conda activate $ENV_NAME"
-=======
     echo "   conda env config vars set SEARCH_ML_HOME="$(pwd)" --name \$ENV_NAME"
     echo "   conda deactivate \$ENV_NAME"
     echo "   conda activate \$ENV_NAME"
->>>>>>> Stashed changes
     echo ""
     exit 1
 else
