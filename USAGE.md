@@ -38,11 +38,8 @@ This section provides concrete scenarios to help you understand how to run the s
     Ensure `4dfr.pdb` is in your current directory.
 2.  **Run the command:**
     ```bash
-<<<<<<< Updated upstream
     bash master.sh 4dfr.pdb MTX DB
-=======
     bash master.sh 4dfr MTX DB
->>>>>>> Stashed changes
     ```
 3.  **Verify:**
     The script will create a directory (e.g., `1734177600`). Inside, check `results.csv` for the affinity scores.
@@ -54,11 +51,8 @@ This section provides concrete scenarios to help you understand how to run the s
     Ensure `target_prot.pdb` is in your current directory.
 2.  **Run the command:**
     ```bash
-<<<<<<< Updated upstream
     ./master.sh target_prot.pdb LIG FDA
-=======
     ./master.sh target_prot LIG FDA
->>>>>>> Stashed changes
     ```
     *(Note: We use `target_prot` with the `.pdb` extension)*
 3.  **Verify:**
@@ -69,11 +63,8 @@ This section provides concrete scenarios to help you understand how to run the s
 
 1.  **Run the command:**
     ```bash
-<<<<<<< Updated upstream
     bash master.sh my_experiment_v2.pdb DRG DB
-=======
     bash master.sh my_experiment_v2 DRG DB
->>>>>>> Stashed changes
     ```
 
 ## Output Explanation
@@ -125,7 +116,6 @@ This is what happens under the hood when you execute the script:
 * **Cause:** The input PDB has fewer than 25 residues, or the script failed to detect standard amino acids (ALA, ARG, etc.).
 * **Fix:** Check your PDB file format. Ensure it uses standard PDB naming conventions for residues.
 
-<<<<<<< Updated upstream
 ### Error: `SEARCH_ML_HOME directory not found`
 * **Cause:** The path in the script does not match your machine's file structure.
 * **Fix:** Execute the following commands on the terminal:
@@ -133,11 +123,9 @@ This is what happens under the hood when you execute the script:
   conda env config vars set SEARCH_ML="$(pwd)" --name search-ml
   conda activate search-ml
   ```
-=======
 ### Error: `HOME directory not found`
 * **Cause:** The hardcoded path in the script does not match your machine's file structure.
 * **Fix:** Open `master.sh` and edit the `export HOME="..."` line to point to your `search-ml` folder.
->>>>>>> Stashed changes
 
 ## Copyright & Contact
 
