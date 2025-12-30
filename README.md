@@ -1,7 +1,7 @@
 # 🧬 Search-ML: Automated Virtual Screening Pipeline
 
 ![Version](https://img.shields.io/badge/version-1.3.1-blue.svg)
-![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20Windows-lightgrey.svg)
+![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20Windows-lightgrey.svg) 
 ![License](https://img.shields.io/badge/license-AFL-green.svg)
 ![Lab](https://img.shields.io/badge/SCFBio-IIT%20Delhi-orange.svg)
 
@@ -112,7 +112,7 @@ This script is designed for **serial execution** on a Master Node or Workstation
 | :--- | :--- | :--- |
 | **$1** | `PDB_FILENAME` | The name of your PDB file **with the extension**. <br>*(e.g., Use `1abc.pdb`)* |
 | **$2** | `LIGAND_CODE` | The 3-letter residue name of the ligand inside the PDB. <br>*(e.g., `LIG`, `MOL`, `DRG`)* |
-| **$3** | `DATABASE` | The target database identifier. <br>**Options:** `DB` (DrugBank) or `FDA` (FDA Approved) |
+| **$3** | `DATABASE` | The target database identifier. <br>**Options:** `DB` (DrugBank), `FDA` (FDA Approved) and `BIMP` (BIMP Phytochemical Database)* |
 | **$3** | `MODE` | The screening mode. <br>**Options:** DB, FDA, SINGLE, CUSTOM |
 
 ### Example
