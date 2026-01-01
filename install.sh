@@ -136,11 +136,15 @@ else
     conda env create --file "$ENV_FILE"
 fi
 
+conda env config vars set SEARCH_ML_HOME="$(pwd)" --name $ENV_NAME
+conda activate $ENV_NAME
+
 echo "=========================================="
 echo "🎉 Setup Complete!"
 echo "=========================================="
 echo ""
-echo "To activate the environment, run:"
+echo "If $ENV_NAME not activated automatically, to activate the environment, run:"
+echo "   conda activate"
 echo "   conda env config vars set SEARCH_ML_HOME="$(pwd)" --name $ENV_NAME"
 echo "   conda activate $ENV_NAME"
 echo ""
