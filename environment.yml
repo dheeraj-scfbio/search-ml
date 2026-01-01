@@ -101,13 +101,13 @@ dependencies:
       - amberutils==21.0
       - biopython==1.86
       - catboost==1.2.8
-      - edgembar==3.0
+      - edgembar
       - graphviz==0.21
       - lightgbm==4.6.0
       - mmpbsa-py==16.0
       - narwhals==2.13.0
       - numpy==1.26.4
-      - packmol-memgen==2025.1.29
+      - packmol-memgen
       - pdb4amber==22.0
       - pillow==12.0.0
       - plotly==6.5.0
