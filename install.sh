@@ -136,7 +136,7 @@ else
     conda env create --file "$ENV_FILE"
 fi
 
-conda env config vars set SEARCH_ML_HOME="$(pwd)" --name $ENV_NAME
+conda env config vars set SEARCH_ML_HOME=$(pwd) --name $ENV_NAME
 conda activate $ENV_NAME
 
 echo "=========================================="
